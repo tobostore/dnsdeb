@@ -1,0 +1,25 @@
+apt-get install apache2 bind9 dnsutils ssh
+cd /etc/bind
+nano named.conf.default-zones
+
+zone "domain" {
+        type master;
+        file "/etc/bind/db.name";
+};
+
+zone "ip dari belakang ke depan" {
+        type master;
+        file "/etc/bind/db.ip";
+};
+
+jangan lupa titik koma
+
+cp db.local db.name
+edit local host sesuai domain
+di bagian setelah ; domain di awal ip di belakang
+
+cp db.127 db.ip
+edit local host sesuai domain
+di bagian setelah ; domain di akir secara lengkap ip di awal di ambil semua kecuali 192
+
+setelah itu edit nano /etc/resolv.conf
