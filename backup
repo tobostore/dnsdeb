@@ -1,0 +1,554 @@
+# dec/08/2025 09:08:30 by RouterOS 6.44.5
+# software id = 7R78-U459
+#
+# model = RB750Gr3
+# serial number = 8AFF0B18D80C
+/interface ethernet
+set [ find default-name=ether1 ] name="ether1 - Distribusi Lantai 2"
+set [ find default-name=ether2 ] name=ether2@SWITCH2
+set [ find default-name=ether3 ] name="ether3 - Distribusi Lantai 3"
+set [ find default-name=ether4 ] auto-negotiation=no
+set [ find default-name=ether5 ] name=ether5-In_Modem
+/interface l2tp-client
+add connect-to=103.131.16.62 disabled=no name=GMDP password=123 user=smapiis
+/interface vlan
+add comment="RUIJI LABKOM" interface=ether2@SWITCH2 name=vlan10-SSID.Labkom-1 \
+    vlan-id=10
+add interface=ether2@SWITCH2 name=vlan11-SSID.Labkom-2 vlan-id=11
+add interface="ether1 - Distribusi Lantai 2" name="vlan12-SSID.XII KMP 2B" \
+    vlan-id=12
+add interface="ether1 - Distribusi Lantai 2" name="vlan13-SSID.XII IPS 2" \
+    vlan-id=13
+add interface="ether1 - Distribusi Lantai 2" name="vlan14-SSID.XII KMP 2A" \
+    vlan-id=14
+add interface="ether1 - Distribusi Lantai 2" name="vlan15-SSID.XII KMP 1C" \
+    vlan-id=15
+add interface="ether1 - Distribusi Lantai 2" name="vlan16-SSID.XII KMP 1A" \
+    vlan-id=16
+add interface="ether1 - Distribusi Lantai 2" name="vlan17-SSID.XII KMP 1B" \
+    vlan-id=17
+add interface="ether1 - Distribusi Lantai 2" name=\
+    "vlan18-SSID.XI KMP 2C DAN XI KMP 2B" vlan-id=18
+add interface="ether1 - Distribusi Lantai 2" name=\
+    "vlan19-SSID.XI KMP 2A DAN XI KMP 1C" vlan-id=19
+add interface=ether2@SWITCH2 name="vlan20-SSID.RUANGBENDAHARA & UKS" vlan-id=\
+    20
+add interface="ether3 - Distribusi Lantai 3" name=vlan21-SSID.X5&X6 vlan-id=\
+    21
+add interface="ether3 - Distribusi Lantai 3" name=\
+    "vlan22-SSID.XI KMP 1A & XI KMP 1B" vlan-id=22
+add interface="ether3 - Distribusi Lantai 3" name=\
+    "vlan23-SSID,KELAS X3 & KELAS X4" vlan-id=23
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+/ip firewall layer7-protocol
+add name=facebook regexp="^.+(facebook,com).*\$"
+/ip hotspot
+add interface=vlan10-SSID.Labkom-1 name=hotspot1
+/ip hotspot profile
+set [ find default=yes ] html-directory=flash/hotspot
+add dns-name=login.smapermata.sch.id hotspot-address=192.168.100.1 \
+    html-directory=flash/hotspot login-by=http-chap name=hsprof1
+/ip hotspot user profile
+add name=piis8 shared-users=35 transparent-proxy=yes
+add add-mac-cookie=no !mac-cookie-timeout name="limit 3m" rate-limit=3M/3M \
+    shared-users=3
+/ip ipsec proposal
+set [ find default=yes ] enc-algorithms=3des
+/ip pool
+add name=vpn_remote ranges=10.151.151.2-10.151.151.10
+add name=dhcp_pool4 ranges="172.16.100.2-172.16.100.254,172.16.101.2-172.16.10\
+    1.254,172.16.102.2-172.16.102.254,172.16.103.2-172.16.103.254"
+add name=dhcp_pool5 ranges=192.168.200.2-192.168.200.254
+add name=dhcp_pool7 ranges=192.168.86.2-192.168.86.254
+add name=dhcp_pool9 ranges=10.172.96.2-10.172.99.254
+add name=dhcp_pool11 ranges=192.168.150.2-192.168.150.254
+add name=dhcp_pool12 ranges=10.3.10.2-10.3.10.254
+add name=dhcp_pool13 ranges=10.3.11.2-10.3.11.254
+add name=dhcp_pool14 ranges=10.3.12.2-10.3.12.254
+add name=dhcp_pool15 ranges=10.3.13.2-10.3.13.254
+add name=pool1 ranges=10.3.14.2-10.3.14.254
+add name=dhcp_pool17 ranges=10.3.14.2-10.3.14.254
+add name=pool2 ranges=10.3.15.2-10.3.15.254
+add name=dhcp_pool19 ranges=10.3.15.2-10.3.15.254
+add name=dhcp_pool20 ranges=10.3.16.2-10.3.16.254
+add name=dhcp_pool21 ranges=10.3.17.2-10.3.17.254
+add name=dhcp_pool22 ranges=10.3.18.2-10.3.18.254
+add name=dhcp_pool23 ranges=10.3.19.2-10.3.19.254
+add name=dhcp_pool24 ranges=10.3.20.2-10.3.20.254
+add name=dhcp_pool25 ranges=10.3.21.2-10.3.21.254
+add name=dhcp_pool26 ranges=10.3.22.2-10.3.22.254
+add name=dhcp_pool27 ranges=10.3.23.2-10.3.23.254
+/ip dhcp-server
+add address-pool=dhcp_pool4 disabled=no interface=ether2@SWITCH2 name=dhcp2
+add address-pool=dhcp_pool9 disabled=no interface=\
+    "ether1 - Distribusi Lantai 2" name=dhcp4
+add address-pool=dhcp_pool11 disabled=no interface=\
+    "ether3 - Distribusi Lantai 3" name=dhcp1
+add address-pool=dhcp_pool12 disabled=no interface=vlan10-SSID.Labkom-1 name=\
+    dhcp3
+add address-pool=dhcp_pool13 disabled=no interface=vlan11-SSID.Labkom-2 name=\
+    dhcp5
+add address-pool=dhcp_pool14 disabled=no interface="vlan12-SSID.XII KMP 2B" \
+    name=dhcp6
+add address-pool=dhcp_pool15 disabled=no interface="vlan13-SSID.XII IPS 2" \
+    name=dhcp7
+add address-pool=dhcp_pool17 disabled=no interface="vlan14-SSID.XII KMP 2A" \
+    name=dhcp8
+add address-pool=dhcp_pool19 disabled=no interface="vlan15-SSID.XII KMP 1C" \
+    name=dhcp9
+add address-pool=dhcp_pool20 disabled=no interface="vlan16-SSID.XII KMP 1A" \
+    name=dhcp10
+add address-pool=dhcp_pool21 disabled=no interface="vlan17-SSID.XII KMP 1B" \
+    name=dhcp11
+add address-pool=dhcp_pool22 disabled=no interface=\
+    "vlan18-SSID.XI KMP 2C DAN XI KMP 2B" name=dhcp12
+add address-pool=dhcp_pool23 disabled=no interface=\
+    "vlan19-SSID.XI KMP 2A DAN XI KMP 1C" name=dhcp13
+add address-pool=dhcp_pool24 disabled=no interface=\
+    "vlan20-SSID.RUANGBENDAHARA & UKS" name=dhcp14
+add address-pool=dhcp_pool25 disabled=no interface=vlan21-SSID.X5&X6 name=\
+    dhcp15
+add address-pool=dhcp_pool26 disabled=no interface=\
+    "vlan22-SSID.XI KMP 1A & XI KMP 1B" name=dhcp16
+add address-pool=dhcp_pool27 disabled=no interface=\
+    "vlan23-SSID,KELAS X3 & KELAS X4" name=dhcp17
+/ip hotspot user profile
+set [ find default=yes ] address-pool=vpn_remote
+add address-pool=vpn_remote name=Limit1Mbps rate-limit=1M/1M
+add address-pool=vpn_remote name=uprof1 shared-users=10
+/ppp profile
+add local-address=10.151.151.1 name=vpn_remote remote-address=vpn_remote
+/queue simple
+add disabled=yes name="Zoom LAN" packet-marks=LIMIT target=172.16.100.0/24
+add disabled=yes name=Wifi packet-marks=LIMIT target=192.168.200.0/24
+add disabled=yes name="Wifi 1" packet-marks=LIMIT target=192.168.100.0/24
+/snmp community
+add addresses=::/0 name=MRTG
+/system logging action
+set 0 memory-lines=100
+set 1 disk-lines-per-file=100
+/interface l2tp-server server
+set enabled=yes
+/interface pptp-server server
+set enabled=yes
+/interface sstp-server server
+set enabled=yes
+/ip address
+add address=192.168.10.166/24 interface="ether3 - Distribusi Lantai 3" \
+    network=192.168.10.0
+add address=172.16.100.1/22 interface=ether2@SWITCH2 network=172.16.100.0
+add address=192.168.150.1/24 comment=test interface=\
+    "ether3 - Distribusi Lantai 3" network=192.168.150.0
+add address=172.16.50.63/24 interface="ether3 - Distribusi Lantai 3" network=\
+    172.16.50.0
+add address=192.168.200.1/24 interface=ether2@SWITCH2 network=192.168.200.0
+add address=192.168.100.1/24 interface=ether2@SWITCH2 network=192.168.100.0
+add address=192.168.86.1/24 interface="ether1 - Distribusi Lantai 2" network=\
+    192.168.86.0
+add address=10.172.99.1/22 comment="LANTAI 2" interface=\
+    "ether1 - Distribusi Lantai 2" network=10.172.96.0
+add address=192.168.200.1 comment="LANTAI 2" interface=\
+    "ether1 - Distribusi Lantai 2" network=192.168.200.5
+add address=192.168.200.1 comment="LANTAI 2" interface=\
+    "ether1 - Distribusi Lantai 2" network=192.168.200.6
+add address=192.168.200.1 comment="LANTAI 2" interface=\
+    "ether1 - Distribusi Lantai 2" network=192.168.200.7
+add address=192.168.200.1 comment="LANTAI 2" interface=\
+    "ether1 - Distribusi Lantai 2" network=192.168.200.8
+add address=192.168.155.1/24 comment=test interface=ether4 network=\
+    192.168.155.0
+add address=10.99.12.2/29 interface=ether5-In_Modem network=10.99.12.0
+add address=192.168.150.1 comment="LANTAI 2" interface=\
+    "ether1 - Distribusi Lantai 2" network=192.168.150.120
+add address=172.20.100.1/24 interface=ether2@SWITCH2 network=172.20.100.0
+add address=192.168.110.2 interface="ether1 - Distribusi Lantai 2" network=\
+    192.168.110.1
+add address=10.3.10.1/24 interface=vlan10-SSID.Labkom-1 network=10.3.10.0
+add address=10.3.11.1/24 interface=vlan11-SSID.Labkom-2 network=10.3.11.0
+add address=10.3.12.1/24 interface="vlan12-SSID.XII KMP 2B" network=10.3.12.0
+add address=10.3.13.1/24 interface="vlan13-SSID.XII IPS 2" network=10.3.13.0
+add address=10.3.14.1/24 interface="vlan14-SSID.XII KMP 2A" network=10.3.14.0
+add address=10.3.15.1/24 interface="vlan15-SSID.XII KMP 1C" network=10.3.15.0
+add address=10.3.16.1/24 interface="vlan16-SSID.XII KMP 1A" network=10.3.16.0
+add address=10.3.17.1/24 interface="vlan17-SSID.XII KMP 1B" network=10.3.17.0
+add address=10.3.18.1/24 interface="vlan18-SSID.XI KMP 2C DAN XI KMP 2B" \
+    network=10.3.18.0
+add address=10.3.19.1/24 interface="vlan19-SSID.XI KMP 2A DAN XI KMP 1C" \
+    network=10.3.19.0
+add address=10.3.20.1/24 interface="vlan20-SSID.RUANGBENDAHARA & UKS" \
+    network=10.3.20.0
+add address=10.3.21.1/24 interface=vlan21-SSID.X5&X6 network=10.3.21.0
+add address=10.3.22.1/24 interface="vlan22-SSID.XI KMP 1A & XI KMP 1B" \
+    network=10.3.22.0
+add address=10.3.23.1/24 interface="vlan23-SSID,KELAS X3 & KELAS X4" network=\
+    10.3.23.0
+/ip arp
+add address=192.168.86.6 comment="XII MIPA 3A" interface=\
+    "ether1 - Distribusi Lantai 2" mac-address=78:8C:B5:0B:40:66
+add address=192.168.86.7 comment="XII MIPA 3B" interface=\
+    "ether1 - Distribusi Lantai 2" mac-address=78:8C:B5:0B:40:69
+add address=192.168.200.5 comment="XI MIPA 3A" interface=\
+    "ether1 - Distribusi Lantai 2" mac-address=54:AF:97:6B:A1:6D
+add address=192.168.200.6 comment="XI IPS 1A" interface=\
+    "ether1 - Distribusi Lantai 2" mac-address=54:AF:97:6B:9B:F7
+add address=192.168.86.4 comment="XII MIPA 2A" interface=\
+    "ether1 - Distribusi Lantai 2" mac-address=78:8C:B5:0B:4D:29
+add address=192.168.86.5 comment="XII MIPA 2B" interface=\
+    "ether1 - Distribusi Lantai 2" mac-address=78:8C:B5:0B:48:01
+add address=192.168.86.2 comment="XII MIPA 1A" interface=\
+    "ether1 - Distribusi Lantai 2" mac-address=78:8C:B5:0B:4C:8A
+add address=192.168.86.3 comment="XII MIPA 1B" interface=\
+    "ether1 - Distribusi Lantai 2" mac-address=78:8C:B5:0B:4D:23
+add address=192.168.200.7 comment="XI IPS 2" interface=\
+    "ether1 - Distribusi Lantai 2" mac-address=54:AF:97:6B:B1:7D
+add address=192.168.200.8 comment="XI IPS 3" interface=\
+    "ether1 - Distribusi Lantai 2" mac-address=54:AF:97:6B:9F:A3
+add address=10.172.99.183 comment="XII KMP 2A & XII KMP 1C" interface=\
+    "ether1 - Distribusi Lantai 2" mac-address=E0:5D:54:9F:B0:9B
+/ip dhcp-client
+add add-default-route=no dhcp-options=hostname,clientid disabled=no \
+    interface=ether4 use-peer-dns=no
+/ip dhcp-server lease
+add address=192.168.150.67 client-id=1:4:95:e6:16:73:a8 mac-address=\
+    04:95:E6:16:73:A8
+add address=192.168.150.195 client-id=1:0:31:92:af:6a:9b mac-address=\
+    00:31:92:AF:6A:9B
+/ip dhcp-server network
+add address=10.3.10.0/24 dns-server=103.131.18.110,103.124.138.250 gateway=\
+    10.3.10.1
+add address=10.3.11.0/24 dns-server=103.131.18.110,103.124.138.250 gateway=\
+    10.3.11.1
+add address=10.3.12.0/24 dns-server=103.131.18.110,103.124.138.250 gateway=\
+    10.3.12.1
+add address=10.3.13.0/24 dns-server=103.131.18.110,103.124.138.250 gateway=\
+    10.3.13.1
+add address=10.3.14.0/24 gateway=10.3.14.1
+add address=10.3.15.0/24 gateway=10.3.15.1
+add address=10.3.16.0/24 gateway=10.3.16.1
+add address=10.3.17.0/24 gateway=10.3.17.1
+add address=10.3.18.0/24 gateway=10.3.18.1
+add address=10.3.19.0/24 gateway=10.3.19.1
+add address=10.3.20.0/24 gateway=10.3.20.1
+add address=10.3.21.0/24 gateway=10.3.21.1
+add address=10.3.22.0/24 gateway=10.3.22.1
+add address=10.3.23.0/24 gateway=10.3.23.1
+add address=10.172.96.0/22 dns-server=8.8.8.8,8.8.4.4 gateway=10.172.99.1
+add address=172.16.100.0/22 gateway=172.16.100.1
+add address=192.168.1.0/24 gateway=192.168.1.1
+add address=192.168.100.0/24 gateway=192.168.100.1
+add address=192.168.150.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=192.168.150.1
+add address=192.168.200.0/24 gateway=192.168.200.1
+/ip dns
+set allow-remote-requests=yes servers=103.131.18.110,103.124.138.250
+/ip firewall address-list
+add address=192.168.1.10-192.168.1.10.254 disabled=yes list="blok website"
+add address=192.168.0.0/18 list=private
+add address=172.16.0.0/12 list=private
+add address=10.0.0.0/8 list=private
+add address=hippocampus-ypp.id list=WEBNAT
+/ip firewall filter
+add action=accept chain=forward dst-address-list=private src-address-list=\
+    private
+add action=passthrough chain=unused-hs-chain comment=\
+    "place hotspot rules here" disabled=yes
+add action=accept chain=forward disabled=yes dst-port=80 layer7-protocol=\
+    facebook protocol=tcp src-address-list="blok website"
+/ip firewall mangle
+add action=accept chain=forward dst-address-list=private src-address-list=\
+    private
+add action=accept chain=postrouting dst-address-list=private \
+    src-address-list=private
+add action=accept chain=prerouting dst-address-list=private src-address-list=\
+    private
+add action=mark-packet chain=forward new-packet-mark=LIMIT passthrough=no \
+    protocol=!icmp src-address-list=private
+add action=mark-routing chain=prerouting dst-address-list=WEBNAT \
+    new-routing-mark=GMDP passthrough=no
+/ip firewall nat
+add action=masquerade chain=srcnat disabled=yes dst-address-list=private \
+    src-address-list=private
+add action=dst-nat chain=dstnat dst-port=53 protocol=udp to-addresses=\
+    103.131.18.110 to-ports=53
+add action=masquerade chain=srcnat
+add action=dst-nat chain=dstnat dst-address=172.16.50.63 dst-port=8080 \
+    protocol=tcp to-addresses=192.168.200.5 to-ports=80
+add action=dst-nat chain=dstnat dst-address=10.99.12.2 dst-port=7877 \
+    protocol=tcp to-addresses=172.16.100.198 to-ports=8090
+add action=dst-nat chain=dstnat comment="ROUTER RUANG BENDAHARA" dst-address=\
+    10.99.12.2 dst-port=8080 protocol=tcp to-addresses=192.168.100.54 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="RUIJI R, BENDAHARA" dst-address=\
+    10.99.12.2 dst-port=16211 protocol=tcp to-addresses=172.16.100.200 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment=\
+    "LABCOMP 1 dan 2 - gmis@2016 - E0:5D:54:9F:B0:8B" dst-address=10.99.12.2 \
+    dst-port=7819 protocol=tcp to-addresses=172.16.100.115 to-ports=80
+add action=dst-nat chain=dstnat comment="wifi labkom1" dst-address=10.99.12.2 \
+    dst-port=8081 protocol=tcp to-addresses=192.168.200.52 to-ports=8080
+add action=dst-nat chain=dstnat comment="wifi labkom2" dst-address=10.99.12.2 \
+    dst-port=8082 protocol=tcp to-addresses=192.168.200.53 to-ports=8081
+add action=dst-nat chain=dstnat comment="XII MIPA 1" disabled=yes \
+    dst-address=10.99.12.2 dst-port=8083 protocol=tcp to-addresses=\
+    192.168.86.2 to-ports=8080
+add action=dst-nat chain=dstnat comment="XII MIPA 1 v.2" disabled=yes \
+    dst-address=10.99.12.2 dst-port=8084 protocol=tcp to-addresses=\
+    192.168.86.3 to-ports=8080
+add action=dst-nat chain=dstnat comment="WIFI XII MIPA 2" disabled=yes \
+    dst-address=10.99.12.2 dst-port=8085 protocol=tcp to-addresses=\
+    192.168.86.4 to-ports=8080
+add action=dst-nat chain=dstnat comment="WIFI XII MIPA 2 v.2" disabled=yes \
+    dst-address=10.99.12.2 dst-port=8086 protocol=tcp to-addresses=\
+    192.168.86.5 to-ports=8080
+add action=dst-nat chain=dstnat comment="WIFI XII MIPA 3" disabled=yes \
+    dst-address=10.99.12.2 dst-port=8087 protocol=tcp to-addresses=\
+    192.168.86.6 to-ports=8080
+add action=dst-nat chain=dstnat comment="WIFI XII MIPA 3 v.2" disabled=yes \
+    dst-address=10.99.12.2 dst-port=8088 protocol=tcp to-addresses=\
+    192.168.86.7 to-ports=8080
+add action=dst-nat chain=dstnat comment="WIFI XII IPS 1" dst-address=\
+    10.99.12.2 dst-port=8089 protocol=tcp to-addresses=192.168.86.8 to-ports=\
+    80
+add action=dst-nat chain=dstnat comment="WIFI XII IPS 1 v.2" dst-address=\
+    10.99.12.2 dst-port=8090 protocol=tcp to-addresses=192.168.86.9 to-ports=\
+    8080
+add action=dst-nat chain=dstnat comment="WIFI XII IPS 3" disabled=yes \
+    dst-address=10.99.12.2 dst-port=8091 protocol=tcp to-addresses=\
+    192.168.86.10 to-ports=8080
+add action=dst-nat chain=dstnat comment="WIFI XII IPS 3 v.2" disabled=yes \
+    dst-address=10.99.12.2 dst-port=8092 protocol=tcp to-addresses=\
+    192.168.86.11 to-ports=8080
+add action=dst-nat chain=dstnat comment="WIFI XII IPS 2" disabled=yes \
+    dst-address=10.99.12.2 dst-port=8093 protocol=tcp to-addresses=\
+    192.168.86.12 to-ports=8080
+add action=dst-nat chain=dstnat comment="WIFI XII IPS 2 v.2" disabled=yes \
+    dst-address=10.99.12.2 dst-port=8094 protocol=tcp to-addresses=\
+    192.168.86.13 to-ports=8080
+add action=dst-nat chain=dstnat dst-address=10.99.12.2 dst-port=8095 \
+    protocol=tcp to-addresses=192.168.200.14 to-ports=8080
+add action=dst-nat chain=dstnat dst-address=10.99.12.2 dst-port=8096 \
+    protocol=tcp to-addresses=192.168.200.15 to-ports=8080
+add action=dst-nat chain=dstnat dst-address=10.99.12.2 dst-port=8097 \
+    protocol=tcp to-addresses=192.168.200.16 to-ports=8081
+add action=dst-nat chain=dstnat dst-address=10.99.12.2 dst-port=8098 \
+    protocol=tcp to-addresses=192.168.200.21 to-ports=8081
+add action=dst-nat chain=dstnat comment="WIFI X.5" dst-address=10.99.12.2 \
+    dst-port=7070 protocol=tcp to-addresses=192.168.150.95 to-ports=8080
+add action=dst-nat chain=dstnat comment="Wifi X.4" dst-address=10.99.12.2 \
+    dst-port=7071 protocol=tcp to-addresses=192.168.150.5 to-ports=8080
+add action=dst-nat chain=dstnat comment="Wifi X3" dst-address=10.99.12.2 \
+    dst-port=7072 protocol=tcp to-addresses=172.16.102.180 to-ports=8080
+add action=dst-nat chain=dstnat comment="Wifi X2 v2" dst-address=10.99.12.2 \
+    dst-port=7073 protocol=tcp to-addresses=172.16.103.247 to-ports=8080
+add action=dst-nat chain=dstnat comment="KMP 2A" disabled=yes dst-address=\
+    10.99.12.2 dst-port=7988 protocol=tcp to-addresses=10.172.99.202 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="RUIJIE Kelas X.1" disabled=yes \
+    dst-address=10.99.12.2 dst-port=1976 protocol=tcp to-addresses=\
+    192.168.150.2 to-ports=80
+add action=dst-nat chain=dstnat comment="RUIJIE Kelas X1&X2" dst-address=\
+    10.99.12.2 dst-port=7069 protocol=tcp to-addresses=192.168.150.207 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="RUIJIE XI KMP 1A & B" dst-address=\
+    10.99.12.2 dst-port=2705 protocol=tcp to-addresses=192.168.150.250 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="RUIJIE XI KMP 2A & 1C" dst-address=\
+    10.99.12.2 dst-port=2706 protocol=tcp to-addresses=10.172.99.20 to-ports=\
+    80
+add action=dst-nat chain=dstnat comment="RUIJIE XII KMP 2A & 1C" dst-address=\
+    10.99.12.2 dst-port=22221 protocol=tcp to-addresses=192.168.86.8 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="RUIJIE XII KMP 2B" dst-address=\
+    10.99.12.2 dst-port=22222 protocol=tcp to-addresses=10.172.99.40 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="RUIJIEKELAS X 3 & 4" dst-address=\
+    10.99.12.2 dst-port=2707 protocol=tcp to-addresses=192.168.150.100 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="RUIJIE KELAS X 5 & 6" dst-address=\
+    10.99.12.2 dst-port=2708 protocol=tcp to-addresses=192.168.150.110 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="RUIJIE XI KMP 2C & 2B" dst-address=\
+    10.99.12.2 dst-port=2709 protocol=tcp to-addresses=192.168.150.120 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="RUIJIE XII KMP 2B & 1C" dst-address=\
+    10.99.12.2 dst-port=2710 protocol=tcp to-addresses=10.172.99.147 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="RUIJIE XII KMP 1A & 1B" dst-address=\
+    10.99.12.2 dst-port=27177 protocol=tcp to-addresses=10.172.99.119 \
+    to-ports=80
+add action=dst-nat chain=dstnat dst-address=10.99.12.2 dst-port=8099 \
+    protocol=tcp to-addresses=192.168.150.195 to-ports=8080
+add action=dst-nat chain=dstnat dst-address=10.99.12.2 dst-port=8100 \
+    protocol=tcp to-addresses=192.168.150.67 to-ports=8080
+add action=dst-nat chain=dstnat dst-address=10.99.12.2 dst-port=8101 \
+    protocol=tcp to-addresses=10.172.99.204 to-ports=8080
+add action=dst-nat chain=dstnat dst-address=10.99.12.2 dst-port=8102 \
+    protocol=tcp to-addresses=192.168.150.2 to-ports=8080
+add action=dst-nat chain=dstnat comment="xi ips_1" disabled=yes dst-address=\
+    10.99.12.2 dst-port=8097 protocol=tcp to-addresses=172.16.101.13 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1001 protocol=tcp to-addresses=10.172.99.200 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1002 protocol=tcp to-addresses=10.172.99.201 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="Kelas XII KMP 2C & Ruang Guru" \
+    dst-address=10.99.12.2 dst-port=4155 protocol=tcp to-addresses=\
+    172.16.100.187 to-ports=80
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1003 protocol=tcp to-addresses=10.172.99.202 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1004 protocol=tcp to-addresses=10.172.99.203 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1005 protocol=tcp to-addresses=10.172.99.204 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1006 protocol=tcp to-addresses=10.172.99.205 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="XI KMP 2C" disabled=yes dst-address=\
+    10.99.12.2 dst-port=1007 protocol=tcp to-addresses=10.172.99.30 to-ports=\
+    8080
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1008 protocol=tcp to-addresses=10.172.99.207 \
+    to-ports=80
+add action=dst-nat chain=dstnat comment="XII KMP 2B & XII IPS 2" dst-address=\
+    10.99.12.2 dst-port=1009 protocol=tcp to-addresses=10.172.99.31 to-ports=\
+    80
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1011 protocol=tcp to-addresses=10.172.99.28 to-ports=\
+    8080
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1012 protocol=tcp to-addresses=10.172.99.29 to-ports=\
+    8080
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1013 protocol=tcp to-addresses=10.172.99.26 to-ports=\
+    8080
+add action=dst-nat chain=dstnat comment="WIFI XI KMP 1C" dst-address=\
+    10.99.12.2 dst-port=1014 protocol=tcp to-addresses=10.172.99.6 to-ports=\
+    8080
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1015 protocol=tcp to-addresses=10.172.99.7 to-ports=\
+    8080
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1016 protocol=tcp to-addresses=192.168.86.13 \
+    to-ports=8080
+add action=dst-nat chain=dstnat comment="bayu progress" dst-address=\
+    10.99.12.2 dst-port=1010 protocol=tcp to-addresses=10.172.99.32 to-ports=\
+    8080
+add action=dst-nat chain=dstnat comment="WiFi Lantai 3" disabled=yes \
+    dst-address=10.99.12.2 dst-port=3000 protocol=tcp to-addresses=\
+    192.168.150.60 to-ports=8080
+add action=passthrough chain=unused-hs-chain comment=\
+    "place hotspot rules here" disabled=yes
+add action=masquerade chain=srcnat comment="masquerade hotspot network" \
+    src-address=192.168.1.0/24
+add action=masquerade chain=srcnat comment="masquerade hotspot network" \
+    src-address=192.168.1.0/24
+add action=redirect chain=dstnat dst-port=80 in-interface=ether5-In_Modem \
+    protocol=tcp to-ports=8080
+add action=masquerade chain=srcnat comment="masquerade hotspot network" \
+    src-address=192.168.1.0/24
+add action=masquerade chain=srcnat comment="masquerade hotspot network" \
+    src-address=192.168.100.0/24
+add action=masquerade chain=srcnat comment="masquerade hotspot network" \
+    src-address=192.168.100.0/24
+/ip hotspot ip-binding
+add address=192.168.1.0/24 disabled=yes type=bypassed
+add address=192.168.1.69 type=bypassed
+add address=192.168.1.0/24 disabled=yes type=bypassed
+add address=192.168.1.240 type=bypassed
+add address=192.168.100.47 disabled=yes mac-address=A4:C3:F0:9F:05:DD type=\
+    bypassed
+add mac-address=98:EE:CB:82:87:C6 type=bypassed
+add mac-address=78:02:F8:A4:01:E5 type=bypassed
+add mac-address=2C:D0:66:1A:59:B8 type=bypassed
+add mac-address=98:EE:CB:83:92:75 type=bypassed
+add mac-address=FE:88:11:71:77:9B type=bypassed
+add mac-address=B8:86:87:C2:D5:0D type=bypassed
+add mac-address=98:EE:CB:8C:88:22 type=bypassed
+add mac-address=18:02:AE:BF:69:4F type=bypassed
+add mac-address=98:EE:CB:8D:41:80 type=bypassed
+add mac-address=0C:98:38:39:84:C9 type=bypassed
+add mac-address=98:EE:CB:8C:89:31 type=bypassed
+add mac-address=94:B8:6D:BB:E7:98 type=bypassed
+add mac-address=98:EE:CB:82:23:70 type=bypassed
+add address=10.3.22.253 mac-address=D2:5E:24:73:7A:51
+/ip hotspot service-port
+set ftp disabled=yes
+/ip hotspot user
+add comment="default global user" name=noc password=123 profile="limit 3m"
+add name=hasan password=permata2122piis profile="limit 3m"
+add name=anjay password=permata2122piis profile="limit 3m"
+add name=rezky password=permata2122piis profile="limit 3m"
+add name=wiwin password=permata2122piis profile="limit 3m"
+add name=khumaidi password=permata2122piis profile="limit 3m"
+add name=aida password=permata2122piis profile="limit 3m"
+add name=ahmad password=permata2122piis profile="limit 3m"
+add name=asep password=permata2122piis profile="limit 3m"
+add name=asih password=permata2122piis profile="limit 3m"
+add name=aziz password=permata2122piis profile="limit 3m"
+add name=chilfi password=permata2122piis profile="limit 3m"
+add name=destya password=permata2122piis profile="limit 3m"
+add name=donny password=permata2122piis profile="limit 3m"
+add name=agus password=permata2122piis profile="limit 3m"
+add name=egiarto password=permata2122piis profile="limit 3m"
+add name=eka password=permata2122piis profile="limit 3m"
+add name=erna password=permata2122piis profile="limit 3m"
+add name=esti password=permata2122piis profile="limit 3m"
+add name=firman password=permata2122piis profile="limit 3m"
+add name=indah password=permata2122piis profile="limit 3m"
+add name=jama password=permata2122piis profile="limit 3m"
+add name=kokom password=permata2122piis profile="limit 3m"
+add name=marwadi password=permata2122piis profile="limit 3m"
+add name=syohib password=permata2122piis profile="limit 3m"
+add name=ramdhony password=permata2122piis profile="limit 3m"
+add name=muliadin password=permata2122piis profile="limit 3m"
+add name=ninda password=permata2122piis profile="limit 3m"
+add name=nisa password=permata2122piis profile="limit 3m"
+add name=nokeri password=permata2122piis profile="limit 3m"
+add name=nopri password=permata2122piis profile="limit 3m"
+add name=oyok password=permata2122piis profile="limit 3m"
+add name=reni password=permata2122piis profile="limit 3m"
+add name=rianti password=permata2122piis profile="limit 3m"
+add name=saiful password=permata2122piis profile="limit 3m"
+add name=shinta password=permata2122piis profile="limit 3m"
+add name=siti password=permata2122piis profile="limit 3m"
+add name=suherman password=permata2122piis profile="limit 3m"
+add name=sustika password=permata2122piis profile="limit 3m"
+add name=suyanti password=permata2122piis profile="limit 3m"
+add name=tri password=permata2122piis profile="limit 3m"
+add name=tuti password=permata2122piis profile="limit 3m"
+add name=yustin password=permata2122piis profile="limit 3m"
+add name=ihdan password=permata2122piis profile="limit 3m"
+add name=yuni password=permata2122piis profile="limit 3m"
+/ip proxy
+set cache-on-disk=yes cache-path=web-proxy1 enabled=yes parent-proxy=0.0.0.0
+/ip proxy access
+add action=deny dst-host=www.facebook.com redirect-to=www.smapiis.sch.id
+/ip route
+add distance=1 gateway=10.41.41.1 routing-mark=GMDP
+add check-gateway=ping comment="FAILOVER RECRUSIVE" distance=1 gateway=\
+    8.8.8.8 target-scope=30
+add comment="LINK BACKUP" distance=2 gateway=172.16.50.1
+add check-gateway=ping comment="LINK UTAMA" distance=1 dst-address=8.8.8.8/32 \
+    gateway=10.99.12.1
+/ip service
+set telnet disabled=yes
+set ftp disabled=yes
+set ssh disabled=yes
+set api disabled=yes
+set api-ssl disabled=yes
+/ppp secret
+add local-address=10.151.151.1 name=noc password=123 profile=vpn_remote \
+    remote-address=10.151.151.5
+/snmp
+set enabled=yes trap-community=MRTG trap-version=2
+/system clock
+set time-zone-name=Asia/Jakarta
+/system identity
+set name=smapermatainsani
+/tool bandwidth-server
+set authenticate=no
