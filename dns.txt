@@ -23,3 +23,19 @@ edit local host sesuai domain
 di bagian setelah ; domain di akir secara lengkap ip di awal di ambil semua kecuali 192
 
 setelah itu edit nano /etc/resolv.conf
+
+
+
+/ip firewall filter
+add action=add-src-to-address-list address-list=knock-level1 \
+    address-list-timeout=2m chain=input dst-port=4088 protocol=tcp
+add action=add-src-to-address-list address-list=knock-level2 \
+    address-list-timeout=3h chain=input dst-port=3088 protocol=tcp \
+    src-address-list=knock-level1
+add action=add-src-to-address-list address-list=knock-level1 \
+    address-list-timeout=2m chain=input packet-size=4000-4200 protocol=icmp
+add action=add-src-to-address-list address-list=knock-level2 \
+    address-list-timeout=3h chain=input packet-size=3000-3200 protocol=icmp \
+    src-address-list=knock-level1
+add action=accept chain=input src-address-list=knock-level2
+add action=drop chain=input disabled=yes dst-port=11000 protocol=tcp
